@@ -1,0 +1,10 @@
+{
+  "description": "Get instant estimates for electrical jobs, upload photos, and streamline approvals with JMJ Electrical, enhancing convenience for customers.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

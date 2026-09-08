@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'DM Sans', sans-serif;
+  --font-body: 'Work Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --color-ground: #0f0f0f;
+  --color-surface: #181818;
+  --color-surface-2: #222222;
+  --color-border: #2e2e2e;
+  --color-text: #f0f0f0;
+  --color-muted: #888888;
+  --color-spark: #f5c400;
+  --color-spark-dim: #b58e00;
+  --color-danger: #ff4444;
+  --color-success: #22c55e;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: #0f0f0f;
+  color: #f0f0f0;
+  font-family: 'Work Sans', sans-serif;
+}
+
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+*:hover::-webkit-scrollbar {
+  display: block;
+  width: 4px;
+}
+*:hover {
+  scrollbar-width: thin;
+  scrollbar-color: #2e2e2e transparent;
+}
