@@ -51,7 +51,7 @@ const SIZE_LABELS: Record<JobSize, string> = {
   large: "Large / complex job",
 };
 
-type Page = "booking" | "our-work";
+type Page = "booking" | "our-work" | "reviews";
 type Step = "service" | "details" | "photos" | "contact" | "submitted";
 
 type UploadedPhoto = { id: string; file: File; preview: string };
@@ -386,6 +386,89 @@ function OurWorkPage({ onBook }: { onBook: () => void }) {
           </div>
         </div>
       )}
+    </main>
+  );
+}
+
+/* ── Reviews page ── */
+const REVIEWS: { id: number; name: string; rating: number; job: string; text: string }[] = [
+  { id: 1, name: "Tracey", rating: 5, job: "Light Fixtures", text: "Prompt response, good quote, completed the job quickly with no issue. Got some advice on other work and I'll definitely book other jobs soon. Would highly recommend." },
+  { id: 2, name: "Lee", rating: 5, job: "Electric Shower Replacement", text: "Quick response and quick to get the job done. Excellent price. Replaced our electric shower with no problems, needed a new wire put in which he did with no problems. Highly recommended — will definitely use again. Very polite and trustworthy." },
+  { id: 3, name: "Paul", rating: 5, job: "Replace RCD Unit", text: "Arrived as planned and finished the job even though it turned out to be a lot trickier than anticipated. Good service and friendly. Would recommend." },
+  { id: 4, name: "Shoaib", rating: 5, job: "Kitchen Lighting", text: "Great service. High quality and great customer service." },
+  { id: 5, name: "MyBuilder User", rating: 5, job: "Replacement Extractor Fan", text: "JMJ Electrical replaced an extractor fan in one of my rental properties. He was professional, pleasant and easy to deal with. The job was done on time and to budget which is all you can ask for as a landlord." },
+  { id: 6, name: "John", rating: 5, job: "New Fuse Box", text: "Great job. Very pleased with work carried out." },
+  { id: 7, name: "Debbie", rating: 5, job: "Ceiling Light Replacement", text: "Did a great job. Replaced four ceiling lights, removed old lights and replaced — very thorough. Definitely recommend and will be looking to book for future jobs." },
+  { id: 8, name: "Chris", rating: 5, job: "Fault Finding", text: "Managed to fix us in within a week and was upfront with cost. Arrived on time and was friendly and professional throughout. Managed to find the fault and was able to come up with a solution. Will be using again for future projects." },
+  { id: 9, name: "R", rating: 5, job: "Smoke Detectors", text: "Punctual, friendly, and professional work. If needed I will hire him again." },
+  { id: 10, name: "Claire Woodward", rating: 5, job: "Extractor Fan Replacement", text: "Will be hiring JMJ Electrical for future jobs again. Lovely friendly man with high professionalism and dedication. Fitted my 2 extractor fans and completed a fault within my electrics. If you want a good electrician, he's your man!" },
+  { id: 11, name: "MyBuilder User", rating: 5, job: "Fuse Box Replacement", text: "Super impressed with JMJ Electrical's work. Would 100% recommend him to everyone. Friendly, polite, replaced our fuse box and left everything clean and tidy after he had finished." },
+  { id: 12, name: "Matthew", rating: 5, job: "Extractor Fan", text: "Would 100% use JMJ again. Quick response and quick turnaround working round us. Very friendly guy who sorted everything out for us." },
+  { id: 13, name: "John", rating: 5, job: "Electric Cooker Connection", text: "Excellent. Engineer was diligent, polite and extremely helpful." },
+  { id: 14, name: "Georges", rating: 5, job: "Shower Unit Replacement", text: "Everything was explained at the start including cost and what to expect. JMJ Electrical is very polite, respectful and friendly and will answer any question. Job went smoothly even more than expected. Highly recommended if you want high quality work." },
+  { id: 15, name: "Noor Afsha", rating: 5, job: "Facebook Review", text: "Very friendly and professional. Legit and reliable. My all electrical issues are going to him now!!" },
+  { id: 16, name: "Sukdave Gill", rating: 5, job: "Facebook Review", text: "JMJ Electrical is a really polite, friendly, helpful and professional individual. His work was carried out to a high standard and his pricing is very reasonable and affordable. Will definitely use his services again in the future and wish him all the best success." },
+  { id: 17, name: "Danny O'Shaughnessy", rating: 5, job: "Security Cameras", text: "Needed some security cameras installed and JMJ Electrical was more than happy to take the job on; he was very friendly and professional. Definitely recommended for small electrical jobs." },
+  { id: 18, name: "Alis Robinson", rating: 5, job: "Facebook Review", text: "Great electrician and good rates, wouldn't go to anyone else." },
+  { id: 19, name: "MyBuilder User", rating: 5, job: "Toilet Fan", text: "All nicely done! Great work." },
+  { id: 20, name: "Vivian", rating: 5, job: "Electrical Issue", text: "Great job!" },
+  { id: 21, name: "Taylor", rating: 5, job: "Electric Shower Replacement", text: "It was perfect from start to finish. He is friendly and polite and also very knowledgeable. The job was done professionally and with great care, exactly as I wanted. Everything was tidied up afterwards — even took the rubbish away! Would highly recommend." },
+  { id: 22, name: "Watson Mukusha", rating: 5, job: "Fault Finding", text: "Excellent service and professional repair. We had a fantastic experience with our electrician. They quickly and accurately diagnosed the problem causing our shower to break down. The repair was completed swiftly and the entire process went smoothly." },
+  { id: 23, name: "MyBuilder User", rating: 5, job: "Socket Replacement", text: "Quick response, came to house immediately, fulfilled everything as asked and more! Fixed a boiling water tap with a tricky issue. So grateful and would absolutely use again!" },
+  { id: 24, name: "Dony", rating: 5, job: "Ceiling Light Swap", text: "Top man! Sorted out the ceiling lights as agreed." },
+  { id: 25, name: "Sharon", rating: 5, job: "Extractor Hood Installation", text: "We would like to highly recommend JMJ Electrical. JMJ Electrical did an amazing job fitting our extractor hood as the support brackets were faulty. He managed to overcome this which was a great relief — and also fitted an LED bluetooth light. Fantastic work." },
+  { id: 26, name: "Kevin", rating: 5, job: "Floodlight Camera Installation", text: "Amazing job, friendly, professional, great price and done quickly to a very high standard. Thanks! We will call you next time we need help." },
+  { id: 27, name: "Jenny Beckford", rating: 5, job: "Facebook Review", text: "Really pleased to have discovered such a brilliant electrician and would highly recommend JMJ Electrical. Really friendly service, quick to reply, quote and complete the works to a great standard. Thank you." },
+  { id: 28, name: "Darren Debono", rating: 5, job: "Facebook Review", text: "Highly recommend JMJ Electrical. Really friendly and very helpful. Responded to messages immediately and helped me resolve the issue I had in my house. Came first thing in the morning and didn't charge me as much as he could have. Finally found someone trustworthy in the area." },
+  { id: 29, name: "Aaron Leighfield", rating: 5, job: "Facebook Review", text: "Brilliant, responsive to messages and did a great job fixing my mess with an old doorbell chime while also fitting a new cooker hood. Next up, spotlights!" },
+];
+
+function ReviewsPage({ onBook }: { onBook: () => void }) {
+  const avg = (REVIEWS.reduce((s, r) => s + r.rating, 0) / REVIEWS.length).toFixed(1);
+  return (
+    <main className="max-w-5xl mx-auto px-6 py-12">
+      {/* Header */}
+      <div className="mb-10 text-center">
+        <h1 className="font-display font-bold text-3xl mb-2" style={{ color: "#f0f0f0" }}>Customer Reviews</h1>
+        <p className="text-sm mb-4" style={{ color: "#888" }}>What our customers in Swindon and surrounding areas say about us</p>
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg" style={{ background: "#181818", border: "1px solid #2e2e2e" }}>
+          <span className="text-2xl font-display font-bold" style={{ color: "#f0f0f0" }}>{avg}</span>
+          <div>
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map(s => (
+                <span key={s} style={{ color: "#cccccc", fontSize: 16 }}>★</span>
+              ))}
+            </div>
+            <p className="text-[10px] font-mono" style={{ color: "#888" }}>{REVIEWS.length} verified reviews</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Review cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {REVIEWS.map((r) => (
+          <div key={r.id} className="rounded-lg p-6 flex flex-col gap-4" style={{ background: "#181818", border: "1px solid #2e2e2e" }}>
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map(s => (
+                <span key={s} style={{ color: s <= r.rating ? "#cccccc" : "#333", fontSize: 14 }}>★</span>
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed flex-1" style={{ color: "#d0d0d0" }}>"{r.text}"</p>
+            <div>
+              <p className="text-xs font-display font-semibold" style={{ color: "#f0f0f0" }}>{r.name}</p>
+              <p className="text-[10px] font-mono" style={{ color: "#888" }}>{r.job}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <div className="text-center">
+        <p className="text-sm mb-4" style={{ color: "#888" }}>Ready to book? Get an instant estimate online.</p>
+        <button onClick={onBook} className="px-6 py-3 rounded text-sm font-mono font-semibold" style={{ background: "#4a4a4a", color: "#f0f0f0", border: "1px solid #666" }}>
+          Get a Quote
+        </button>
+      </div>
     </main>
   );
 }
@@ -763,14 +846,27 @@ export default function App() {
             >
               Our Work
             </button>
+            <button
+              onClick={() => setPage("reviews")}
+              className="px-4 py-2 rounded text-xs font-mono transition-all duration-150"
+              style={{
+                background: page === "reviews" ? "#4a4a4a" : "transparent",
+                color: page === "reviews" ? "#f0f0f0" : "#888",
+                border: `1px solid ${page === "reviews" ? "#666" : "transparent"}`,
+              }}
+            >
+              Reviews
+            </button>
           </nav>
         </div>
       </header>
 
       {page === "booking" ? (
         <BookingPage />
-      ) : (
+      ) : page === "our-work" ? (
         <OurWorkPage onBook={() => setPage("booking")} />
+      ) : (
+        <ReviewsPage onBook={() => setPage("booking")} />
       )}
 
       {/* Footer */}
