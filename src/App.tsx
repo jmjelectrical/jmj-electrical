@@ -484,7 +484,7 @@ function BookingPage() {
                 ))}
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg hidden lg:block" style={{ background: "#181818", minHeight: 220 }}>
+            <div className="relative overflow-hidden rounded-lg" style={{ background: "#181818", minHeight: 220 }}>
               <img
                 src={heroPhoto}
                 alt="JMJ Electrical engineer working on a consumer unit"
